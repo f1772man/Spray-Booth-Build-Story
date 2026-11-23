@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import base64
+import hashlib
 import urllib.request
 from datetime import datetime
 
@@ -34,6 +35,7 @@ API_KEY = os.environ.get("CULTS_API_KEY") or FILE_ENV.get("CULTS_API_KEY", "")
 USERNAME = os.environ.get("CULTS_USERNAME") or FILE_ENV.get("CULTS_USERNAME", "EasyDesigns")
 WEBHOOK_SALE = os.environ.get("DISCORD_WEBHOOK_SALE") or FILE_ENV.get("DISCORD_WEBHOOK_SALE", "")
 WEBHOOK_REPORT = os.environ.get("DISCORD_WEBHOOK_REPORT") or FILE_ENV.get("DISCORD_WEBHOOK_REPORT", "")
+WEBHOOK_MESSAGE = os.environ.get("DISCORD_WEBHOOK_MESSAGE") or FILE_ENV.get("DISCORD_WEBHOOK_MESSAGE", "")
 
 def load_state():
     if os.path.exists(STATE_PATH):
@@ -42,7 +44,7 @@ def load_state():
                 return json.load(f)
         except Exception:
             pass
-    return {"known_sales": [], "last_views": 0, "last_downloads": 0}
+    return {"known_sales": [], "known_comments": [], "last_views": 0, "last_downloads": 0}
 
 def save_state(state):
     try:
@@ -70,7 +72,7 @@ def query_cults(query):
         headers={
             "Content-Type": "application/json",
             "Authorization": f"Basic {auth_b64}",
-            "User-Agent": "EasyDesignsTracker/1.0"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
         }
     )
     with urllib.request.urlopen(req) as resp:
@@ -195,7 +197,103 @@ def check_sales(force_notify=False):
 
     state["known_sales"] = list(known_sales)
     save_state(state)
-    print(f"Check complete. {new_sales_count} new sale(s) processed.")
+    print(f"Check sales complete. {new_sales_count} new sale(s) processed.")
+
+def check_comments(force_notify=False):
+    print("Checking for Cults3D comments & customer messages...")
+    state = load_state()
+    known_comments = set(state.get("known_comments", []))
+
+    query = """
+    {
+      myself {
+        commentsBatch(limit: 10) {
+          total
+          results {
+            text
+            publishedAt
+            creator {
+              nick
+              url
+            }
+            commented {
+              __typename
+              ... on Creation {
+                name
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+    """
+    res = query_cults(query)
+    data = res.get("data", {}).get("myself", {})
+    comments = data.get("commentsBatch", {}).get("results", [])
+
+    new_comments_count = 0
+    target_webhook = WEBHOOK_MESSAGE or WEBHOOK_SALE
+
+    for cm in comments:
+        c_creator = cm.get("creator", {})
+        creator_nick = c_creator.get("nick", "User")
+        published_at = cm.get("publishedAt", "")
+        text = cm.get("text", "").strip()
+
+        # Generate unique hash for this comment
+        c_hash = hashlib.md5(f"{creator_nick}_{published_at}_{text[:40]}".encode("utf-8")).hexdigest()
+
+        # Skip our own replies to avoid self-notification
+        if creator_nick.lower() == USERNAME.lower() and not force_notify:
+            known_comments.add(c_hash)
+            continue
+
+        if force_notify or (c_hash not in known_comments):
+            commented_obj = cm.get("commented", {})
+            target_name = commented_obj.get("name", "EasyDesigns Profile / 3D Model")
+            target_url = commented_obj.get("url", f"https://cults3d.com/en/users/{USERNAME}/comments")
+            reply_url = f"https://cults3d.com/en/users/{USERNAME}/comments"
+
+            try:
+                dt = datetime.fromisoformat(published_at.replace("Z", "+00:00"))
+                dt_str = dt.strftime("%Y-%m-%d %H:%M")
+            except Exception:
+                dt_str = published_at
+
+            # Truncate text if very long for embed description
+            display_text = text if len(text) <= 1000 else text[:997] + "..."
+
+            embed = {
+                "title": "💬 [NEW COMMENT] 새로운 고객 문의/댓글이 등록되었습니다!",
+                "description": f"**\"{display_text}\"**",
+                "color": 0xA855F7, # Purple / Violet
+                "fields": [
+                    {"name": "👤 작성자", "value": f"`@{creator_nick}`", "inline": True},
+                    {"name": "📦 대상", "value": f"[{target_name[:35]}]({target_url})", "inline": True},
+                    {"name": "⏱️ 등록 일시", "value": f"{dt_str}", "inline": True},
+                    {"name": "💬 답변하기", "value": f"[Cults3D에서 답글 작성하기 ↗]({reply_url})", "inline": False}
+                ],
+                "footer": {"text": "Cults3D EasyDesigns Customer Q&A Tracker"}
+            }
+
+            payload = {
+                "username": "Cults3D EasyDesigns Q&A Bot",
+                "avatar_url": "https://cults3d.com/favicon.png",
+                "embeds": [embed]
+            }
+
+            print(f"Sending comment alert from @{creator_nick}...")
+            if send_discord_webhook(target_webhook, payload):
+                print(f"Comment alert sent successfully!")
+                known_comments.add(c_hash)
+                new_comments_count += 1
+            else:
+                print(f"Failed sending comment alert")
+
+    state["known_comments"] = list(known_comments)
+    save_state(state)
+    print(f"Check comments complete. {new_comments_count} new comment(s) processed.")
 
 def send_daily_report():
     print("Generating Daily Summary Report...")
@@ -206,6 +304,9 @@ def send_daily_report():
           nick
           followersCount
           creationsCount
+        }
+        commentsBatch(limit: 1) {
+          total
         }
         salesBatch(limit: 50) {
           total
@@ -239,6 +340,7 @@ def send_daily_report():
     creations = data.get("creationsBatch", {}).get("results", [])
     sales_total = data.get("salesBatch", {}).get("total", 0)
     sales = data.get("salesBatch", {}).get("results", [])
+    total_comments = data.get("commentsBatch", {}).get("total", 0)
 
     total_income_cents = sum(s.get("income", {}).get("cents", 0) for s in sales)
     total_views = sum(c.get("viewsCount", 0) for c in creations)
@@ -273,6 +375,7 @@ def send_daily_report():
             {"name": "👥 팔로워", "value": f"**{user.get('followersCount', 0)}** 명", "inline": True},
             {"name": "🛒 총 판매 건수", "value": f"**{sales_total}** 건", "inline": True},
             {"name": "💶 총 누적 순익", "value": f"**€{total_income_cents/100:.2f} EUR**", "inline": True},
+            {"name": "💬 누적 댓글/문의", "value": f"**{total_comments}** 건", "inline": True},
             {"name": "🛠️ 등록된 3D 제품별 현황", "value": models_text, "inline": False}
         ],
         "footer": {"text": "Cults3D EasyDesigns Analytics • Daily Automated Briefing"}
@@ -294,12 +397,17 @@ if __name__ == "__main__":
     mode = sys.argv[1] if len(sys.argv) > 1 else "--all"
     if mode == "--test-sale":
         check_sales(force_notify=True)
-    elif mode == "--daily-report":
-        send_daily_report()
+    elif mode == "--test-comment":
+        check_comments(force_notify=True)
     elif mode == "--check-sales":
         check_sales(force_notify=False)
+    elif mode == "--check-comments":
+        check_comments(force_notify=False)
+    elif mode == "--daily-report":
+        send_daily_report()
     elif mode == "--all":
-        check_sales(force_notify=True)
+        check_sales(force_notify=False)
+        check_comments(force_notify=True)
         send_daily_report()
     else:
-        print("Unknown mode. Use: --test-sale | --check-sales | --daily-report | --all")
+        print("Unknown mode. Use: --test-sale | --test-comment | --check-sales | --check-comments | --daily-report | --all")
