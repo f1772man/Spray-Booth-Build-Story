@@ -1,0 +1,43 @@
+name: Cults3D Sales & Daily Report Tracker
+
+on:
+  schedule:
+    # Check for new sales every 30 minutes
+    - cron: '*/30 * * * *'
+    # Daily report at 00:00 UTC (09:00 KST)
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  track-cults:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Cults3D Sales Check & Report
+        env:
+          CULTS_API_KEY: ${{ secrets.CULTS_API_KEY }}
+          CULTS_USERNAME: ${{ secrets.CULTS_USERNAME }}
+          DISCORD_WEBHOOK_SALE: ${{ secrets.DISCORD_WEBHOOK_SALE }}
+          DISCORD_WEBHOOK_REPORT: ${{ secrets.DISCORD_WEBHOOK_REPORT }}
+        run: |
+          python cults_discord_bot.py --check-sales
+          if [ "$(date -u +%H)" = "00" ]; then
+            python cults_discord_bot.py --daily-report
+          fi
+
+      - name: Commit & Push Updated State
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add cults_bot_state.json || true
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update cults3d sales state" && git push) || true
