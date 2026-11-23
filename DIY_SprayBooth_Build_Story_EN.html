@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zero Lacquer Fumes in My Apartment | DIY Airtight Spray Booth Enclosure Build Log</title>
+  <style>
+    :root {
+      --bg: #0f141c;
+      --card-bg: #18202c;
+      --border: #283548;
+      --primary: #3b82f6;
+      --accent: #10b981;
+      --danger: #ef4444;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid var(--primary);
+      color: #60a5fa;
+      border-radius: 9999px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 740px;
+      margin: 0 auto;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .card:hover {
+      border-color: #3b82f6;
+    }
+    .card-img-wrap {
+      width: 100%;
+      background: #000;
+      position: relative;
+    }
+    .card-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .card-body {
+      padding: 28px 32px;
+    }
+    .step-tag {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+    .step-tag.step1 { color: #f87171; }
+    .step-tag.step2 { color: #60a5fa; }
+    .step-tag.step3 { color: #fbbf24; }
+    .step-tag.step4 { color: #c084fc; }
+    .step-tag.step5 { color: #34d399; }
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: #fff;
+    }
+    p {
+      color: #cbd5e1;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+    ul {
+      margin-left: 20px;
+      color: #94a3b8;
+      font-size: 14.5px;
+    }
+    li { margin-bottom: 6px; }
+    .highlight-box {
+      margin-top: 16px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .highlight-box.danger {
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 4px solid var(--danger);
+      color: #fca5a5;
+    }
+    .highlight-box.success {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 4px solid var(--accent);
+      color: #6ee7b7;
+    }
+    .footer-cta {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid #3b82f6;
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      margin-top: 60px;
+    }
+    .footer-cta h3 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+    .footer-cta p {
+      color: #94a3b8;
+      max-width: 620px;
+      margin: 0 auto 24px;
+    }
+    .btn {
+      display: inline-block;
+      background: #3b82f6;
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 14px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge">🛠️ MAKER BUILD LOG & CASE STUDY</div>
+      <h1>Achieving Zero Lacquer Fumes in an Apartment Room</h1>
+      <div class="subtitle">
+        How I engineered a modular 2020 aluminum airtight glove box enclosure around a standard portable desktop spray booth to permanently eliminate toxic fumes and keep my family happy.
+      </div>
+    </header>
+
+    <!-- STEP 1 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <img src="Annotated_Photos_EN/Step1_Before_Problem.jpg" alt="Step 1 Before Problem">
+      </div>
+      <div class="card-body">
+        <div class="step-tag step1">STEP 1 • THE PROBLEM</div>
+        <h2>The Fatal Flaw of Standard Open-Front Desktop Booths</h2>
+        <p>Like many model makers, I bought a standard portable folding spray booth for airbrushing in my apartment room. However, its open-front design caused continuous problems whenever spraying lacquers or enamels:</p>
+        <ul>
+          <li><strong>Overspray Backdraft & Escape:</strong> Even with strong exhaust fans running, air turbulence from the airbrush rebound mist caused toxic paint particulates and lacquer thinner fumes to blow directly back into my room.</li>
+          <li><strong>Hours of Exhausting Venting:</strong> A short 10-minute painting session required hours of room ventilation with all windows open in winter and summer.</li>
+        </ul>
+        <div class="highlight-box danger">
+          ❌ <strong>Severe Family Complaints:</strong> Toxic chemical smells spread across the whole house, causing headaches and intense family complaints. I was on the verge of being forced to abandon airbrushing completely.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <img src="Annotated_Photos_EN/Step2_Frame_Design.jpg" alt="Step 2 Frame Design">
+      </div>
+      <div class="card-body">
+        <div class="step-tag step2">STEP 2 • DESIGN CONCEPT</div>
+        <h2>A Modular 2020 Aluminum Enclosure That Houses the Entire Booth</h2>
+        <p>Buying a $500+ commercial industrial negative pressure cabinet wasn't an option. So I asked: <strong>"Why not build a secondary airtight chamber that completely encloses my existing portable booth, reusing its fan and lights?"</strong></p>
+        <ul>
+          <li><strong>Rigid 2020 Aluminum Extrusions:</strong> Industrial AL6063-T5 aluminum framing with internal blind joints for a clean, non-sagging skeleton.</li>
+          <li><strong>Spacious Chamber Dimensions:</strong> Sized at 800mm (W) x 600mm (D) x 500mm (H)—large enough to fit the entire booth, turntable, airbrush stand, and tall 1/35 scale or Gunpla PG models.</li>
+        </ul>
+        <div class="highlight-box success">
+          💡 <strong>ZERO Additional Fan Cost:</strong> Completely recycled the motor, filters, and LED lighting of my existing spray booth.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <img src="Annotated_Photos_EN/Step3_Duct_Hole_Fabrication.jpg" alt="Step 3 Duct Hole Fabrication">
+      </div>
+      <div class="card-body">
+        <div class="step-tag step3">STEP 3 • FABRICATION</div>
+        <h2>Precision Cutouts for Direct Exterior Duct Routing</h2>
+        <p>The key challenge was routing the existing flexible exhaust duct through the enclosure wall straight out the window without letting fumes recirculate inside the room.</p>
+        <ul>
+          <li><strong>Duct Port Precision Hole:</strong> Hole-saw cut through the side/rear 6mm high-density MDF panel, matched tightly to the diameter of the flexible exhaust hose.</li>
+          <li><strong>Dedicated DC Power Jack Pass-Through:</strong> Drilled a dedicated wire slot for the 12V power supply to maintain an airtight seal without pinching cables.</li>
+        </ul>
+        <div class="highlight-box success">
+          ⚙️ <strong>True Negative Pressure:</strong> Fumes are pulled through the booth filter and expelled straight outdoors with zero leakage back into the living space.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <img src="Annotated_Photos_EN/Step4_Chamber_Assembly.jpg" alt="Step 4 Chamber Assembly">
+      </div>
+      <div class="card-body">
+        <div class="step-tag step4">STEP 4 • ASSEMBLY</div>
+        <h2>Panels Slotting & Internal Booth Placement</h2>
+        <p>Inserted the 6mm MDF baseboard and side panels into the 2020 profile extrusion slots, then placed the spray booth inside.</p>
+        <ul>
+          <li><strong>Vibration and Noise Dampening:</strong> The solid MDF floor and rigid extrusion frame significantly absorbed the fan motor's resonance and hum.</li>
+          <li><strong>Optimized Ergonomics:</strong> Placed a rotating turntable right in front of the suction face, allowing effortless 360-degree rotation of scale models while spraying.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <img src="Annotated_Photos_EN/Step5_Completed_Enclosure.jpg" alt="Step 5 Completed Enclosure">
+      </div>
+      <div class="card-body">
+        <div class="step-tag step5">STEP 5 • 100% AIRTIGHT COMPLETED</div>
+        <h2>Clear Acrylic Window & Dual 3D-Printed Glove Ports</h2>
+        <p>Installed a 6.0mm high-transparency acrylic front window paired with custom **3D-printed Ø120mm dual glove ports** and elastic sealing sleeves.</p>
+        <ul>
+          <li><strong>100% Optical Clarity:</strong> The crystal-clear front acrylic provides unobstructed, distortion-free viewing of the model under bright booth illumination.</li>
+          <li><strong>Full Isolation Through Gloves:</strong> Hands slip directly into the sealed glove ports—airbrushing with zero exposure to skin, eyes, or lungs.</li>
+        </ul>
+        <div class="highlight-box success">
+          🎉 <strong>Real-World Outcome:</strong> Literally 0% thinner odor leaks into the room during or after spraying. Zero headaches, no family complaints, and complete creative freedom day or night!
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="footer-cta">
+      <h3>Want to Build Your Own Airtight Enclosure?</h3>
+      <p>I packaged the entire digital kit: <strong>3D printable glove port STLs, 1:1 laser-cut DXF vector files, native STEP CAD models, and the comprehensive interactive build guide & hardware BOM</strong>.</p>
+      <a class="btn" href="https://cults3d.com/en/3d-model/tool/airtight-airbrush-spray-booth-enclosure-diy-kit-2020-extrusions-dual-glove-p" target="_blank">View DIY Package on Cults3D (50% Black Friday Flash Sale)</a>
+    </div>
+
+  </div>
+</body>
+</html>
