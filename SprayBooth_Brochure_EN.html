@@ -339,11 +339,89 @@
     transform: translateY(-2px);
   }
 
+  /* Top Navbar Styles */
+  .top-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 99999;
+    width: 100%;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+    padding: 12px 24px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .top-navbar .nav-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .top-navbar .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .top-navbar .nav-btn-doc {
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e2e8f0;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .top-navbar .nav-btn-store {
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: #3b82f6;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  /* Enhanced Mobile Responsiveness */
   @media(max-width: 900px) {
-    .hero { grid-template-columns: 1fr; }
+    .hero { grid-template-columns: 1fr; gap: 28px; padding: 36px 24px; }
     .compare-grid { grid-template-columns: 1fr; }
     .features-grid { grid-template-columns: 1fr; }
     .gallery-grid { grid-template-columns: 1fr; }
+  }
+  @media(max-width: 640px) {
+    .top-navbar { padding: 10px 14px; }
+    .top-navbar .nav-home { font-size: 13.5px; }
+    .top-navbar .nav-btn-doc { display: none; }
+    .top-navbar .nav-btn-store { padding: 5px 10px; font-size: 12px; }
+    
+    .container { padding: 20px 14px; }
+    .hero { padding: 24px 16px; border-radius: 14px; margin-bottom: 32px; }
+    .hero-title { font-size: clamp(22px, 6vw, 28px); }
+    .hero-desc { font-size: 14px; margin-bottom: 18px; }
+    .hero-highlights li { font-size: 13.5px; }
+    
+    .section-title { font-size: 22px; }
+    .section-sub { font-size: 14px; }
+    .problem-card, .solution-card { padding: 20px 16px; border-radius: 12px; }
+    .feature-card { padding: 20px 16px; border-radius: 12px; }
+    
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; margin-bottom: 36px; }
+    table { min-width: 520px; }
+    th, td { padding: 12px 14px; font-size: 13.5px; }
+    
+    .cta-section { padding: 28px 16px; border-radius: 14px; }
+    .cta-title { font-size: 22px; }
+    .cta-desc { font-size: 14px; }
+    .btn-primary { width: 100%; justify-content: center; padding: 14px 20px; font-size: 15px; }
   }
 </style>
 </head>
@@ -351,13 +429,13 @@
 
 
 <!-- TOP NAVIGATION BAR -->
-<nav style="position: sticky; top: 0; z-index: 99999; width: 100%; background: rgba(15, 23, 42, 0.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(59, 130, 246, 0.3); padding: 12px 24px; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
-  <a href="index.html" style="display: inline-flex; align-items: center; gap: 8px; color: #60a5fa; text-decoration: none; font-weight: 700; font-size: 15px; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif;">
+<nav class="top-navbar">
+  <a href="index.html" class="nav-home">
     <span style="font-size: 18px;">🏠</span> ← Return to Main Hub (Home)
   </a>
-  <div style="display: flex; align-items: center; gap: 12px;">
-    <a href="index.html" style="padding: 6px 14px; border-radius: 6px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #e2e8f0; text-decoration: none; font-size: 13px; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif;">All Documents</a>
-    <a href="https://cults3d.com/en/3d-model/tool/airtight-airbrush-spray-booth-enclosure-diy-kit-2020-extrusions-dual-glove-p" target="_blank" style="padding: 6px 14px; border-radius: 6px; background: #3b82f6; color: #ffffff; text-decoration: none; font-size: 13px; font-weight: 700; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif;">Cults3D Store ↗</a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-btn-doc">All Documents</a>
+    <a href="https://cults3d.com/en/3d-model/tool/airtight-airbrush-spray-booth-enclosure-diy-kit-2020-extrusions-dual-glove-p" target="_blank" class="nav-btn-store">Cults3D Store ↗</a>
   </div>
 </nav>
 
