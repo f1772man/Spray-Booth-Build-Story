@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIY Airtight Spray Booth Enclosure | Official Documentation & Build Hub</title>
+  <meta name="description" content="Official documentation, interactive assembly manual, product brochure, and DIY build story for the Airtight Airbrush Spray Booth Enclosure.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(22, 30, 46, 0.75);
+      --card-hover: rgba(30, 41, 62, 0.95);
+      --border: #233148;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --accent: #10b981;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
+      background: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+    
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 19px;
+      letter-spacing: -0.02em;
+    }
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .nav-btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .nav-btn-outline:hover {
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .nav-btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+    }
+    .nav-btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 64px 0 48px;
+    }
+    .sale-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      border-radius: 999px;
+      color: #60a5fa;
+      font-size: 13.5px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    .sale-badge span {
+      background: #ef4444;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .hero h1 {
+      font-size: 44px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 36px;
+    }
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .cta-btn-lg {
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Document Grid */
+    .doc-section {
+      padding: 32px 0 64px;
+    }
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 32px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .doc-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .doc-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: transparent;
+      transition: background 0.25s ease;
+    }
+    .doc-card:hover {
+      background: var(--card-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.5);
+    }
+    .doc-card.c1:hover { border-color: #3b82f6; }
+    .doc-card.c1:hover::before { background: #3b82f6; }
+    .doc-card.c2:hover { border-color: #10b981; }
+    .doc-card.c2:hover::before { background: #10b981; }
+    .doc-card.c3:hover { border-color: #a855f7; }
+    .doc-card.c3:hover::before { background: #a855f7; }
+
+    .card-icon {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    .doc-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .doc-card p {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      flex-grow: 1;
+    }
+    .card-links {
+      display: flex;
+      gap: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 20px;
+    }
+    .link-btn {
+      flex: 1;
+      text-align: center;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .link-btn-primary {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #60a5fa;
+    }
+    .link-btn-primary:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    .link-btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+    }
+    .link-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    /* Highlights Section */
+    .features-bar {
+      margin-top: 24px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      text-align: center;
+    }
+    .f-item h4 {
+      font-size: 15px;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .f-item p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    footer a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 32px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="container">
+    <a href="#" class="brand">
+      <div class="brand-logo">E</div>
+      <span>EasyDesigns | DIY Hub</span>
+    </a>
+    <div class="nav-links">
+      <a href="https://cults3d.com/en/3d-model/tool/airtight-airbrush-spray-booth-enclosure-diy-kit-2020-extrusions-dual-glove-p" target="_blank" class="nav-btn nav-btn-primary">
+        Cults3D Store ↗
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="container hero">
+    <div class="sale-badge">
+      <span>50% OFF</span> Black Friday Flash Sale Live on Cults3D (€6)
+    </div>
+    <h1>Airtight Spray Booth Enclosure</h1>
+    <p>
+      Turn your existing open desktop spray booth into a 100% sealed, negative-pressure glove box. Zero lacquer fumes, zero overspray, and peaceful indoor airbrushing.
+    </p>
+    <div class="hero-actions">
+      <a href="https://cults3d.com/en/3d-model/tool/airtight-airbrush-spray-booth-enclosure-diy-kit-2020-extrusions-dual-glove-p" target="_blank" class="cta-btn-lg nav-btn-primary">
+        🛒 Download DIY Package on Cults3D
+      </a>
+      <a href="DIY_SprayBooth_Build_Story_EN.html" class="cta-btn-lg nav-btn-outline">
+        📖 Read Build Case Study
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Document Portal Grid -->
+  <main class="container doc-section">
+    <div class="section-title">
+      <span>📂 Project Documentation Portal</span>
+    </div>
+    <div class="section-desc">
+      Explore the full documentation suite: real build case study, step-by-step interactive assembly manual, and technical specifications brochure.
+    </div>
+
+    <div class="grid">
+      
+      <!-- Card 1: DIY Build Story -->
+      <div class="doc-card c1">
+        <div>
+          <div class="card-icon">📖</div>
+          <h3>1. Real DIY Build Story</h3>
+          <p>
+            The origin story of solving severe lacquer thinner fumes in an apartment room. Features annotated photos showing frame design, duct cutouts, and 100% airtight completion.
+          </p>
+        </div>
+        <div class="card-links">
+          <a href="DIY_SprayBooth_Build_Story_EN.html" class="link-btn link-btn-primary">English Story ↗</a>
+          <a href="DIY_SprayBooth_Build_Story.html" class="link-btn link-btn-secondary">한국어 제작기 ↗</a>
+        </div>
+      </div>
+
+      <!-- Card 2: Assembly Manual -->
+      <div class="doc-card c2">
+        <div>
+          <div class="card-icon">🛠️</div>
+          <h3>2. Interactive Build Guide (v9.0)</h3>
+          <p>
+            Complete step-by-step assembly manual with interactive 3D assembly views, fastener specs, full hardware BOM, and laser-cut acrylic verification drawings.
+          </p>
+        </div>
+        <div class="card-links">
+          <a href="SprayBooth_BuildGuide_EN.html" class="link-btn link-btn-primary">English Manual ↗</a>
+          <a href="SprayBooth_BuildGuide.html" class="link-btn link-btn-secondary">한국어 설명서 ↗</a>
+        </div>
+      </div>
+
+      <!-- Card 3: Product Brochure -->
+      <div class="doc-card c3">
+        <div>
+          <div class="card-icon">📄</div>
+          <h3>3. Official Product Brochure</h3>
+          <p>
+            Executive summary and technical brochure highlighting key dimensions, 2020 extrusion structural integrity, dual glove port ergonomics, and comparison against open booths.
+          </p>
+        </div>
+        <div class="card-links">
+          <a href="SprayBooth_Brochure_EN.html" class="link-btn link-btn-primary">English Brochure ↗</a>
+          <a href="SprayBooth_Brochure.html" class="link-btn link-btn-secondary">한국어 브로셔 ↗</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Quick Highlights -->
+    <div class="features-bar">
+      <div class="f-item">
+        <h4>🧤 Dual 120mm Glove Ports</h4>
+        <p>100% isolation for skin, eyes & lungs</p>
+      </div>
+      <div class="f-item">
+        <h4>💡 Zero Extra Fan Cost</h4>
+        <p>Houses standard portable desktop booth</p>
+      </div>
+      <div class="f-item">
+        <h4>⚙️ 2020 Rigid Framing</h4>
+        <p>AL6063-T5 aluminum & 6mm acrylic</p>
+      </div>
+      <div class="f-item">
+        <h4>🛑 0% Fume Leakage</h4>
+        <p>Negative pressure direct exterior exhaust</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© 2026 <strong>EasyDesigns</strong>. All rights reserved.</p>
+      <p style="margin-top: 8px; font-size: 13px;">
+        Designed for makers, scale modelers & Gunpla hobbyists worldwide. | 
+        <a href="https://cults3d.com/en/3d-model/tool/airtight-airbrush-spray-booth-enclosure-diy-kit-2020-extrusions-dual-glove-p" target="_blank">Cults3D Digital Package</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
