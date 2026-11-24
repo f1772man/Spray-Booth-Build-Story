@@ -186,6 +186,7 @@ def check_sales(force_notify=False):
             payload = {
                 "username": "Cults3D EasyDesigns Sale Alert",
                 "avatar_url": "https://cults3d.com/favicon.png",
+                "content": "@everyone 🎉 **[NEW SALE]** 새로운 Cults3D 주문이 접수되었습니다!",
                 "embeds": [embed]
             }
 
@@ -282,6 +283,7 @@ def check_comments(force_notify=False):
             payload = {
                 "username": "Cults3D EasyDesigns Q&A Bot",
                 "avatar_url": "https://cults3d.com/favicon.png",
+                "content": "@everyone 💬 **[NEW COMMENT]** 새로운 고객 문의/댓글이 도착했습니다!",
                 "embeds": [embed]
             }
 
@@ -386,6 +388,7 @@ def send_daily_report():
     payload = {
         "username": "Cults3D EasyDesigns Daily Digest",
         "avatar_url": "https://cults3d.com/favicon.png",
+        "content": "@everyone 📊 **[DAILY REPORT]** 오늘의 EasyDesigns Cults3D 성과 브리핑이 도착했습니다!",
         "embeds": [embed]
     }
 
