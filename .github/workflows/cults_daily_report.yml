@@ -1,0 +1,32 @@
+name: Cults3D Daily Report
+
+on:
+  schedule:
+    # Runs daily at 00:05 UTC (09:05 KST) - avoids top-of-hour congestion
+    - cron: '5 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  daily-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Send Daily Report
+        env:
+          CULTS_API_KEY: ${{ secrets.CULTS_API_KEY }}
+          CULTS_USERNAME: ${{ secrets.CULTS_USERNAME }}
+          DISCORD_WEBHOOK_SALE: ${{ secrets.DISCORD_WEBHOOK_SALE }}
+          DISCORD_WEBHOOK_REPORT: ${{ secrets.DISCORD_WEBHOOK_REPORT }}
+          DISCORD_WEBHOOK_MESSAGE: ${{ secrets.DISCORD_WEBHOOK_MESSAGE }}
+        run: |
+          python cults_discord_bot.py --daily-report

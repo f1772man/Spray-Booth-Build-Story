@@ -1,18 +1,16 @@
-name: Cults3D Sales, Comments & Daily Report Tracker
+name: Cults3D Sales & Comments Monitor
 
 on:
   schedule:
-    # Check for new sales & comments every 30 minutes
-    - cron: '*/30 * * * *'
-    # Daily report at 00:00 UTC (09:00 KST)
-    - cron: '0 0 * * *'
+    # Runs every 30 minutes at :15 and :45 past the hour
+    - cron: '15,45 * * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  track-cults:
+  monitor:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -23,7 +21,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run Cults3D Sales, Comments Check & Report
+      - name: Check Sales and Comments
         env:
           CULTS_API_KEY: ${{ secrets.CULTS_API_KEY }}
           CULTS_USERNAME: ${{ secrets.CULTS_USERNAME }}
@@ -33,9 +31,6 @@ jobs:
         run: |
           python cults_discord_bot.py --check-sales
           python cults_discord_bot.py --check-comments
-          if [ "$(date -u +%H)" = "00" ]; then
-            python cults_discord_bot.py --daily-report
-          fi
 
       - name: Commit & Push Updated State
         run: |
