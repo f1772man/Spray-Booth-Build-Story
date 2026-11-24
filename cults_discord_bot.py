@@ -4,7 +4,9 @@ import json
 import base64
 import hashlib
 import urllib.request
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+
+KST = timezone(timedelta(hours=9))
 
 # Path to .env and state
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -161,7 +163,7 @@ def check_sales(force_notify=False):
             created_at = s.get("createdAt", "")
             try:
                 dt = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
-                dt_str = dt.strftime("%Y-%m-%d %H:%M (UTC%z)")
+                dt_str = dt.astimezone(KST).strftime("%Y-%m-%d %H:%M KST")
             except Exception:
                 dt_str = created_at
 
@@ -257,7 +259,7 @@ def check_comments(force_notify=False):
 
             try:
                 dt = datetime.fromisoformat(published_at.replace("Z", "+00:00"))
-                dt_str = dt.strftime("%Y-%m-%d %H:%M")
+                dt_str = dt.astimezone(KST).strftime("%Y-%m-%d %H:%M KST")
             except Exception:
                 dt_str = published_at
 
@@ -347,7 +349,7 @@ def send_daily_report():
     total_downloads = sum(c.get("downloadsCount", 0) for c in creations)
     total_likes = sum(c.get("likesCount", 0) for c in creations)
 
-    today_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+    today_str = datetime.now(KST).strftime("%Y-%m-%d %H:%M KST")
 
     # Creation details
     models_summary = []
