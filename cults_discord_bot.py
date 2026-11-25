@@ -64,7 +64,7 @@ def country_flag(code):
     except Exception:
         return ""
 
-def query_cults(query):
+def query_cults(query, max_retries=3):
     auth_str = f"{USERNAME}:{API_KEY}"
     auth_b64 = base64.b64encode(auth_str.encode("utf-8")).decode("utf-8")
 
@@ -74,11 +74,18 @@ def query_cults(query):
         headers={
             "Content-Type": "application/json",
             "Authorization": f"Basic {auth_b64}",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         }
     )
-    with urllib.request.urlopen(req) as resp:
-        return json.loads(resp.read().decode("utf-8"))
+    for attempt in range(1, max_retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except Exception as e:
+            if attempt < max_retries:
+                time.sleep(2 * attempt)
+            else:
+                raise e
 
 def send_discord_webhook(webhook_url, payload):
     if not webhook_url:
@@ -295,7 +302,13 @@ def check_comments(force_notify=False):
     save_state(state)
     print(f"Check comments complete. {new_comments_count} new comment(s) processed.")
 
-def send_daily_report():
+def send_daily_report(force=False):
+    today_kst = datetime.now(KST).strftime("%Y-%m-%d")
+    state = load_state()
+    if not force and state.get("last_daily_report_date") == today_kst:
+        print(f"Daily report already sent today ({today_kst}). Skipping duplicate send.")
+        return True
+
     print("Generating Daily Summary Report...")
     query = """
     {
@@ -424,7 +437,9 @@ if __name__ == "__main__":
     elif mode == "--check-comments":
         check_comments(force_notify=False)
     elif mode == "--daily-report":
-        send_daily_report()
+        send_daily_report(force=False)
+    elif mode == "--force-daily-report":
+        send_daily_report(force=True)
     elif mode == "--check-daily-due":
         check_daily_report_if_due()
     elif mode == "--monitor":
