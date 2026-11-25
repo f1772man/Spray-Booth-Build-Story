@@ -46,7 +46,7 @@ def load_state():
                 return json.load(f)
         except Exception:
             pass
-    return {"known_sales": [], "known_comments": [], "last_views": 0, "last_downloads": 0}
+    return {"known_sales": [], "known_comments": [], "last_daily_report_date": "", "last_views": 0, "last_downloads": 0}
 
 def save_state(state):
     try:
@@ -159,7 +159,6 @@ def check_sales(force_notify=False):
             country_name = country.get("name", "Unknown")
             flag = country_flag(country.get("code", ""))
 
-            # Format timestamp
             created_at = s.get("createdAt", "")
             try:
                 dt = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
@@ -244,10 +243,8 @@ def check_comments(force_notify=False):
         published_at = cm.get("publishedAt", "")
         text = cm.get("text", "").strip()
 
-        # Generate unique hash for this comment
         c_hash = hashlib.md5(f"{creator_nick}_{published_at}_{text[:40]}".encode("utf-8")).hexdigest()
 
-        # Skip our own replies to avoid self-notification
         if creator_nick.lower() == USERNAME.lower() and not force_notify:
             known_comments.add(c_hash)
             continue
@@ -264,7 +261,6 @@ def check_comments(force_notify=False):
             except Exception:
                 dt_str = published_at
 
-            # Truncate text if very long for embed description
             display_text = text if len(text) <= 1000 else text[:997] + "..."
 
             embed = {
@@ -289,11 +285,11 @@ def check_comments(force_notify=False):
 
             print(f"Sending comment alert from @{creator_nick}...")
             if send_discord_webhook(target_webhook, payload):
-                print(f"Comment alert sent successfully!")
+                print("Comment alert sent successfully!")
                 known_comments.add(c_hash)
                 new_comments_count += 1
             else:
-                print(f"Failed sending comment alert")
+                print("Failed sending comment alert")
 
     state["known_comments"] = list(known_comments)
     save_state(state)
@@ -353,7 +349,6 @@ def send_daily_report():
 
     today_str = datetime.now(KST).strftime("%Y-%m-%d %H:%M KST")
 
-    # Creation details
     models_summary = []
     for c in creations:
         name = c.get("name", "")
@@ -393,13 +388,33 @@ def send_daily_report():
     }
 
     print("Sending daily report webhook...")
-    if send_discord_webhook(WEBHOOK_REPORT, payload):
+    success = send_discord_webhook(WEBHOOK_REPORT, payload)
+    if success:
         print("Daily report sent successfully!")
+        # Record today's date so it never sends duplicates
+        state = load_state()
+        state["last_daily_report_date"] = datetime.now(KST).strftime("%Y-%m-%d")
+        save_state(state)
+        return True
     else:
         print("Failed to send daily report.")
+        return False
+
+def check_daily_report_if_due():
+    """Self-healing: If it is 09:00 AM KST or later and today's report hasn't been sent, send it!"""
+    state = load_state()
+    now_kst = datetime.now(KST)
+    today_kst = now_kst.strftime("%Y-%m-%d")
+    last_sent = state.get("last_daily_report_date", "")
+
+    if now_kst.hour >= 9 and last_sent != today_kst:
+        print(f"Daily report is due for {today_kst} (last sent was: '{last_sent}'). Triggering send...")
+        send_daily_report()
+    else:
+        print(f"Daily report check: already sent today ({today_kst}) or not due yet.")
 
 if __name__ == "__main__":
-    mode = sys.argv[1] if len(sys.argv) > 1 else "--all"
+    mode = sys.argv[1] if len(sys.argv) > 1 else "--monitor"
     if mode == "--test-sale":
         check_sales(force_notify=True)
     elif mode == "--test-comment":
@@ -410,9 +425,16 @@ if __name__ == "__main__":
         check_comments(force_notify=False)
     elif mode == "--daily-report":
         send_daily_report()
-    elif mode == "--all":
+    elif mode == "--check-daily-due":
+        check_daily_report_if_due()
+    elif mode == "--monitor":
+        # Full regular check: sales + comments + daily report if due!
         check_sales(force_notify=False)
+        check_comments(force_notify=False)
+        check_daily_report_if_due()
+    elif mode == "--all":
+        check_sales(force_notify=True)
         check_comments(force_notify=True)
         send_daily_report()
     else:
-        print("Unknown mode. Use: --test-sale | --test-comment | --check-sales | --check-comments | --daily-report | --all")
+        print("Unknown mode. Use: --monitor | --check-sales | --check-comments | --daily-report | --check-daily-due | --all")

@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Check Sales and Comments
+      - name: Run Cults3D Monitor (Sales + Comments + Fail-safe Daily Report)
         env:
           CULTS_API_KEY: ${{ secrets.CULTS_API_KEY }}
           CULTS_USERNAME: ${{ secrets.CULTS_USERNAME }}
@@ -29,8 +29,7 @@ jobs:
           DISCORD_WEBHOOK_REPORT: ${{ secrets.DISCORD_WEBHOOK_REPORT }}
           DISCORD_WEBHOOK_MESSAGE: ${{ secrets.DISCORD_WEBHOOK_MESSAGE }}
         run: |
-          python cults_discord_bot.py --check-sales
-          python cults_discord_bot.py --check-comments
+          python cults_discord_bot.py --monitor
 
       - name: Commit & Push Updated State
         run: |
